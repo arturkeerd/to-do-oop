@@ -10,7 +10,7 @@ class todoController {
         const newTodo = new Todo(Math.random().toString(), task)
         this.TODOS.push(newTodo)
         res.json({
-            message: 'create d new todo object',
+            message: 'created new todo object',
             newTask: newTodo
         }) 
     }
@@ -32,6 +32,21 @@ class todoController {
         res.json({
             message: 'Updated todo' ,
             updatedTask: this.TODOS[todoIndex]
+        })
+    }
+    deleteTodo(req, res){
+        const todoId = req.params.id
+        const todoIndex = this.TODOS.findIndex((todo) => todo.id === todoId)
+        if (todoIndex < 0) {
+            res.json({
+                message: 'Could not find todo with such id'
+            })
+            throw new Error('Could not find todo!')
+        }
+        const deletedTask = this.TODOS.splice(todoIndex, 1)
+        res.json({
+            message: 'Deleted todo successfully',
+            deletedTask: deletedTask[0]
         })
     }
 }
